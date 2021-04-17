@@ -1,0 +1,68 @@
+#include<stdio.h>
+#include<math.h>
+struct Point
+{
+float x;
+float y;
+};
+typedef struct Point point;
+struct Rectangle
+{
+point P1;
+point P2;
+point P3;
+float l;
+float b;
+float area;
+};
+typedef struct Rectangle rect;
+int input()
+{
+int n;
+printf("Enter the number of test cases\n");
+scanf ("%d",&n);
+return n;
+}
+void input_1(rect *one)
+{
+scanf("%f",&one->P1.x);
+scanf("%f",&one->P1.y);
+scanf("%f",&one->P2.x);
+scanf("%f",&one->P2.y);
+scanf("%f",&one->P3.x);
+scanf("%f",&one->P3.y);
+}
+void input_n(rect a[],int n)
+{
+for(int i=0;i<n;i++)
+input_1(&a[i]);
+}
+void compute_1(rect *one)
+{
+one->l=sqrt(pow((one->P1.x - one->P2.x),2)+(pow((one->P1.y - one->P2.y),2)));
+one->b=sqrt(pow((one->P1.x - one->P3.x),2)+(pow((one->P1.y - one->P3.y),2)));
+one->area=one->l*one->b;
+}
+void compute_n(rect a[],int n)
+{
+for(int i=0;i<n;i++)
+compute_1(&a[i]);
+}
+void output_1 (rect *one)
+{
+printf("The area of Rectangle with vertices (%f,%f),(%f,%f) and (%f,%f) is %f\n",one->P1.x,one->P1.y,one->P2.x,one->P2.y,one->P3.x,one->P3.y,one->area);
+}
+void output_n(rect a[],int n)
+{
+for(int i=0;i<n;i++)
+output_1(&a[i]);
+}
+int main()
+{
+int n=input();
+rect a[100];
+input_n(a,n);
+compute_n(a,n);
+output_n(a,n);
+return 0;
+}
