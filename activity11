@@ -1,0 +1,89 @@
+#include<stdio.h>
+struct Student
+{
+char name[100];
+char grade;
+float score;
+int marks[100];
+};
+typedef struct Student student1;
+struct Gradebook
+{
+char subject[100];
+int w;
+float weight[100];
+int m;
+student1 student[100];
+};
+typedef struct Gradebook gradebook;
+void input(gradebook *a)
+{
+scanf ("%s",a->subject);
+scanf("%d",&a->w);
+scanf("%d",&a->m);
+for(int i=0;i<a->w;i++)
+scanf("%f",&a->weight[i]);
+for(int i=0;i<a->m;i++)
+{
+scanf("%s",a->student[i].name);
+for(int j=0;j<a->w;j++)
+scanf("%d",&a->student[i].marks[j]);
+}
+}
+void input_n(int n, gradebook gb[100])
+{
+for(int i=0;i<n;i++)
+input(&gb[i]);
+}
+void compute(gradebook *a)
+{
+for(int i=0;i<a->m;i++)
+    {
+        float W=0.0;
+        a->student[i].score=0.0;
+        for(int j=0;j<a->w;j++)
+        {
+            a->student[i].score+=(a->student[i].marks[j]*a->weight[j]);
+            W+=a->weight[j];
+        }
+        a->student[i].score=a->student[i].score/W;
+        if(a->student[i].score>=0&&a->student[i].score<60)
+            a->student[i].grade='F';
+        else if(a->student[i].score>=60&&a->student[i].score<70)
+            a->student[i].grade='D';
+        else if(a->student[i].score>=70&&a->student[i].score<80)
+            a->student[i].grade='C';
+        else if(a->student[i].score>=80&&a->student[i].score<90)
+            a->student[i].grade='B';
+        else if(a->student[i].score>=90&&a->student[i].score<=100)
+            a->student[i].grade='A';
+        else
+            a->student[i].grade='E';
+        }
+}
+void compute_n(int n, gradebook gb[n])
+{
+ for(int i=0;i<n;i++)
+compute(&gb[i]);
+}
+void output (gradebook *a)
+{
+printf("%s\n",a->subject);
+for(int i=0;i<a->m;i++)
+printf("%s %.2f %c\n ", a->student [i].name,a->student [i].score,a->student[i]. grade);
+}
+void output_n(int n, gradebook gb[n])
+{
+for(int i=0;i<n;i++)
+output (&gb[i]);
+}
+int main()
+{
+int n;
+gradebook gb[n];
+scanf("%d",&n);
+input_n(n,gb);
+compute_n(n,gb);
+output_n(n,gb);
+return 0;
+}
